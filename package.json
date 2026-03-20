@@ -2,18 +2,32 @@
   "name": "terra-presence",
   "version": "1.0.0",
   "main": "main.js",
+  "build": {
+    "appId": "com.terra.presence",
+    "productName": "Terra Presence",
+    "files": [
+      "**/*"
+    ],
+    "win": {
+      "target": "nsis"
+    }
+  },
   "scripts": {
-    "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "cross-env NODE_ENV=development electron .",
+    "start:prod": "cross-env NODE_ENV=production electron .",
+    "build": "electron-builder"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "electron": "^40.6.1"
+    "electron": "^40.6.1",
+    "electron-builder": "^26.8.1"
   },
   "dependencies": {
-    "dotenv": "^17.3.1"
+    "cross-env": "^10.1.0",
+    "dotenv": "^17.3.1",
+    "electron-log": "^5.4.3"
   }
 }
