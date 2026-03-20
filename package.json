@@ -6,13 +6,18 @@
     "appId": "com.terra.presence",
     "productName": "Terra Presence",
     "files": [
-      "**/*",
-      ".env.production"
+      "**/*"
+    ],
+    "extraResources": [
+      {
+        "from": ".env.production",
+        "to": ".env.production"
+      }
     ],
     "win": {
       "target": "nsis"
     }
-  },
+},
   "scripts": {
     "start": "cross-env NODE_ENV=development electron .",
     "start:prod": "cross-env NODE_ENV=production electron .",
