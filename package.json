@@ -6,7 +6,8 @@
     "appId": "com.terra.presence",
     "productName": "Terra Presence",
     "files": [
-      "**/*"
+      "**/*",
+      ".env.production"
     ],
     "win": {
       "target": "nsis"

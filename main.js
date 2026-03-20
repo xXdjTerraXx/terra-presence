@@ -9,12 +9,29 @@ log.info("=== APP STARTED ===")
 //     ? '.env.production'
 //     : '.env.development'
 // })
-//PROD DONTENV:
 
-const isPackaged = app.isPackaged
-console.log("DEBUG: app isPackaged: ", isPackaged)
-require('dotenv').config({
-  path: isPackaged ? '.env.production' : '.env.development'
+//PROD DOTENV:
+app.whenReady().then(() => {
+    // load env FIRST
+    const envPath = app.isPackaged
+        ? path.join(process.resourcesPath, '.env.production')
+        : path.join(__dirname, '.env.development');
+
+    require('dotenv').config({ path: envPath });
+
+    log.info("=== APP STARTED ===");
+    log.info("isPackaged:", app.isPackaged);
+    log.info("ENV PATH:", envPath);
+    log.info("BACKEND_URL:", process.env.BACKEND_URL);
+
+    // tray setup
+    tray = new Tray(path.join(__dirname, 'icon.png'));
+    tray.setToolTip('Terra Presence');
+    tray.setContextMenu(buildMenu());
+
+    // presence
+    sendPresence();
+    setInterval(sendPresence, 30000);
 })
 
 let currentStatus = "chilling"
@@ -109,15 +126,3 @@ async function updateStatus(newStatus, newEmoji){
     tray.setContextMenu(buildMenu())
     await sendPresence()
 }
-
-
-app.whenReady().then(() => {
-    tray = new Tray(path.join(__dirname, 'icon.png'))
-    //immediately send presence when app starts
-    sendPresence()
-
-    //heartbeat every 30 seconds
-    setInterval(sendPresence, 30000)
-    tray.setToolTip('Terra Presence')
-    tray.setContextMenu(buildMenu()) 
-})
